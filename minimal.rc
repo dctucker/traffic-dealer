@@ -1,0 +1,8 @@
+Load BITMAP "load.bmp"
+Save BITMAP "save.bmp"
+Up BITMAP "up.bmp"
+Wave BITMAP "wave.bmp"
+Splash BITMAP "splash.bmp"
+mondrian ICON "sample.ico"
+#include "wx/msw/wx.rc"
+
