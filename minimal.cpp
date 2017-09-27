@@ -45,8 +45,6 @@ WX_DECLARE_STRING_HASH_MAP( wxString, StrHash );
 
 #define TIMER_ID 420
 
-//char pass[48] = "“…•‹ßßŒ‹š‘šß”š–œÓß›šš‰•ž‘‘†•ß”ž”ßŒ‹š”“";
-//char pass[50] =   "¯“…•‹ß¯°ß¬‹š‘šß´š–œßÒÒß›šš‰•ž‘‘†•ß´¾´ß¬‹š”“";
 char pass[50] = "¯“…•‹ß¯°ß¬‹š‘šß´š–œßÒÒß›šš‰•ž‘‘†•ß´¾´ß¬‹š”“";
 
 class StationData : public wxObject {
@@ -56,9 +54,7 @@ public:
 	wxString Host, User, Pass;
 	wxString Port;
 	wxString Path;
-//	long int Announcer;
 
-	//int LoadString(wxString str){
 	StationData(wxString str){
 		wxStringTokenizer tkz(str, wxT("\x1F"));
 		ID		= tkz.GetNextToken();
@@ -70,7 +66,7 @@ public:
 		Pass	= tkz.GetNextToken();
 		Port	= tkz.GetNextToken();
 		Path	= tkz.GetNextToken();
-//		tkz.GetNextToken().ToLong(&Announcer);
+		//tkz.GetNextToken().ToLong(&Announcer);
 	}
 };
 WX_DECLARE_STRING_HASH_MAP( StationData *, StationHash );
@@ -82,13 +78,12 @@ public:
 	wxString StationID;
 	StationData *Station;
 	long int SponsorID;
-	wxString SponsorName, Address, Phone, Website, CopyID; //, CopyText;
+	wxString SponsorName, Address, Phone, Website, CopyID;
 	long int Announcer;
 	bool Sent;
 
 	LogData(wxString str, StrHash &Copies, StationHash &Stations){
 		wxString CopyText;
-		//Copies = c;
 		wxStringTokenizer tkz(str, wxT("\x1F"),wxTOKEN_RET_EMPTY);
 		LogID		= tkz.GetNextToken();
 		tkz.GetNextToken().ToLong(&Announcer);
@@ -107,8 +102,6 @@ public:
 		Copies[CopyID] = CopyText;		//copies are stored alongside log items [for now]
 
 		Station = Stations[StationID];
-		//(*s)[*StationID];
-//		return 0;
 	}
 };
 
@@ -134,8 +127,8 @@ public:
 	void OnWave(wxCommandEvent& event);
 	void OnAnnouncer(wxCommandEvent& event);
 	void OnClockMouse(wxMouseEvent& event);
-//	void OnMouse(wxMouseEvent& event);
-//	void OnKey(wxKeyEvent& event);
+	//void OnMouse(wxMouseEvent& event);
+	//void OnKey(wxKeyEvent& event);
 	void OnTimer(wxTimerEvent& event);
 	void OnProcessTerm(wxProcessEvent& event);
 
@@ -187,10 +180,10 @@ private:
 
 // constants
 enum { // menu items
-    Minimal_Quit = wxID_EXIT,
+	Minimal_Quit = wxID_EXIT,
 	Minimal_Font = wxID_PROPERTIES,
 	Minimal_Audio= wxID_OPEN,
-    Minimal_About = wxID_ABOUT,
+	Minimal_About = wxID_ABOUT,
 	B_Upload = wxID_REPLACE,
 	B_Wave = wxID_PREVIEW,
 	C_Announcer = wxID_PAGE_SETUP,
@@ -201,17 +194,17 @@ enum { // menu items
 
 BEGIN_EVENT_TABLE(MyFrame, wxFrame)
 	EVT_CLOSE(MyFrame::OnClose)
-    EVT_MENU(Minimal_Quit,	MyFrame::OnQuit)
-    EVT_MENU(Minimal_About,	MyFrame::OnAbout)
+	EVT_MENU(Minimal_Quit,	MyFrame::OnQuit)
+	EVT_MENU(Minimal_About,	MyFrame::OnAbout)
 	EVT_MENU(Minimal_Font,  MyFrame::OnFont)
 	EVT_MENU(Minimal_Audio, MyFrame::OnAudio)
 	EVT_BUTTON(B_Upload,	MyFrame::OnUpload)
 	EVT_BUTTON(B_Wave,      MyFrame::OnWave)
 	EVT_CHOICE(C_Announcer, MyFrame::OnAnnouncer)
-//	EVT_MOUSEWHEEL(MyFrame::OnMouse)
-//	EVT_CHAR(MyFrame::OnKey)
+	// EVT_MOUSEWHEEL(MyFrame::OnMouse)
+	// EVT_CHAR(MyFrame::OnKey)
 	EVT_TIMER(TIMER_ID, MyFrame::OnTimer)
-    EVT_END_PROCESS(wxID_ANY, MyFrame::OnProcessTerm)
+	EVT_END_PROCESS(wxID_ANY, MyFrame::OnProcessTerm)
 END_EVENT_TABLE()
 
 class MyTextCtrl : public wxTextCtrl {
@@ -268,9 +261,9 @@ IMPLEMENT_APP(MyApp)
 bool MyApp::OnInit() { // 'Main program' equivalent: the program execution "starts" here
 
 	MyFrame *frame = new MyFrame(_T("Traffic Dealer client"));
-    frame->Show(true);
-    
-    return true; // success: wxApp::OnRun() will be called. If return false, exit immediately.
+	frame->Show(true);
+
+	return true; // success: wxApp::OnRun() will be called. If return false, exit immediately.
 }
 
 
@@ -590,15 +583,17 @@ MyFrame::MyFrame(const wxString& title) : wxFrame(NULL, wxID_ANY, title) {
 	Sending = NULL;
 
 
-/*	wxBitmap bitmap;
+	/*
+	wxBitmap bitmap;
 
 	wxSplashScreen* splash = new wxSplashScreen(bitmap,
           wxSPLASH_CENTRE_ON_SCREEN|wxSPLASH_TIMEOUT,
           6000, NULL, -1, wxDefaultPosition, wxDefaultSize,
           wxSIMPLE_BORDER|wxSTAY_ON_TOP);
-	wxYield();*/
+	wxYield();
+	*/
 	GetLog();
-//	pd->Close();
+	// pd->Close();
 	LoadLog();
 	UpdateEntry();
 	//tLeft->PushEventHandler(this);
@@ -713,7 +708,7 @@ void MyFrame::OnUpload(wxCommandEvent& WXUNUSED(event)){
 		//cmd = _T("pscp -P 22822 -pw john316 d:/emailsig.jpg gjtraffic@familyradio.serveftp.net:"); // debug
 
 		UploadPercent = _T("");
-//		SetStatusText("Uploading...");
+		// SetStatusText("Uploading...");
 		m_process = wxProcess::Open(cmd);
 		m_in  = m_process->GetInputStream();
 		m_err = m_process->GetErrorStream();
@@ -727,7 +722,7 @@ void MyFrame::OnUpload(wxCommandEvent& WXUNUSED(event)){
 
 		wxProcess::Kill(m_process->GetPid(), wxSIGKILL, wxKILL_CHILDREN);
 		GetStatusBar()->SetFieldsCount();
-//		SetStatusText("Upload cancelled.");
+		//SetStatusText("Upload cancelled.");
 		SetBorder(wxColour(255,0,0));
 
 	}
@@ -779,9 +774,9 @@ void MyFrame::DoGet() {
 			wxProcess::Kill(m_process->GetPid(), wxSIGKILL, wxKILL_CHILDREN);
 		}
 	} else {
-//		if(pd != NULL) { 
-//			strLog += procout;
-//		} else
+		//if(pd != NULL) { 
+		//	strLog += procout;
+		//} else
 		{
 
 			GetStatusBar()->SetFieldsCount(5);
@@ -897,7 +892,7 @@ void MyFrame::LoadLog(){
 
 	wxStringTokenizer tkzOuter(buf, wxT("\x1D"));
 
-//	Stations = new StationHash();	
+	//Stations = new StationHash();	
 
 		part = tkzOuter.GetNextToken(); // load announcer data
 		wxStringTokenizer tkzA(part, wxT("\x1E"), wxTOKEN_RET_EMPTY);
@@ -946,7 +941,7 @@ void MyFrame::InitProcess(wxString cmdline) {
 	m_process->SetNextHandler(this);
 	DoGet();
 	SetBorder(wxColour(242,200,0));
-//	Sending = Current;
+	//Sending = Current;
 }
 
 void MyFrame::OnClockMouse(wxMouseEvent&  WXUNUSED( event)) {
